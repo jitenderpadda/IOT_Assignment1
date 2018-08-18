@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
+#Reference from Tut 4
 import requests
 import json
-import os
 
-ACCESS_TOKEN=""
+ACCESS_TOKEN="o.dz4a9edkcDRWeDwp8m0rsanLnGU8K46w"
 
 def send_notification_via_pushbullet(title, body):
     """ Sending notification via pushbullet.
@@ -20,11 +20,3 @@ def send_notification_via_pushbullet(title, body):
         raise Exception('Something wrong')
     else:
         print('complete sending')
-
-#main function
-def main():
-    ip_address = os.popen('hostname -I').read()
-    send_notification_via_pushbullet(ip_address, "From Raspberry Pi")
-
-#Execute
-main()
