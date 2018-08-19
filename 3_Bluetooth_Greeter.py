@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Reference Tut 5
 import bluetooth
 import os
 import time
@@ -7,6 +8,7 @@ from sense_hat import SenseHat
 
 # Main function
 def main():
+    # Show Menu
     menuInput=input("Welcome to Pi Bluetooth Service\nPlease choose option number from the Menu\n1. Register a Device\n2. Search and Greet\n")
     menuInput=int(menuInput)
     if(menuInput==1):
@@ -17,6 +19,7 @@ def main():
         print("Invalid Input")
         main()
 
+# Register Device to Database
 def registerDevice():
     connection= sqlite3.connect('/home/pi/Sensors_Database/sensehat.db')
     cursor=connection.cursor()
@@ -29,7 +32,7 @@ def registerDevice():
     print("Device Registered\n\n")
     main()
     
-   
+# Search and Greet   
 def searchAndGreet():
     while True:
         dt = time.strftime("%a, %d %b %y %H:%M:%S", time.localtime())
@@ -39,12 +42,12 @@ def searchAndGreet():
         curs=connection.cursor()
         for row in curs.execute("SELECT * FROM BT_Data"):
             search(row[1], row[2])
+            print("\n")
         connection.close()
     
-# Search for device based on device's name
+# Search for each device based on device's name
 def search(user_name, device_name):
-    print("user_name->"+user_name)
-    print("device_name->"+device_name)
+    print("Searching for User "+user_name+" with device "+device_name)
     device_address = None
     nearby_devices = bluetooth.discover_devices()
     for mac_address in nearby_devices:

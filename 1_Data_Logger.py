@@ -22,16 +22,14 @@ def logToDatabase():
     cursor.execute("CREATE TABLE IF NOT EXISTS Sensor_Data (id INTEGER PRIMARY KEY AUTOINCREMENT, temp NUMERIC, hum NUMERIC, timestamp DATETIME)")
     humidity=getDataFromSensor('Humidity')
     temp=getDataFromSensor('Temp')
+    # Send Push Bullet Notification if temperature meets condition
     if(temp>20):
         send_notification_via_pushbullet("It's cold out there, less than 20C","Remember to take your sweater!")
     cursor.execute("INSERT INTO Sensor_Data (timestamp, temp, hum) VALUES(datetime('now'), (?), (?))", (temp, humidity,))
-    # Print rows on console for runtime logs
-    print("Sensor_Data -")
-    for row in cursor.execute("SELECT * FROM Sensor_Data"):
-        print(row)
     connection.commit()
     connection.close()
-
+    
+# Main function
 def main():
     sense= SenseHat()
     sense.show_message("Logging")
